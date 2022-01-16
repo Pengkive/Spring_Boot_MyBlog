@@ -38,14 +38,14 @@
 
 	<div class="card">
 		<div class="card-hearder">댓글 리스트</div>
-		<ul id="reply--box" class="list-group list-group-flush">
+		<ul id="reply-box" class="list-group list-group-flush">
 			<c:forEach var="reply" items="${board.replys}">
-				<li id="reply--1" class="list-group-item d-flex justify-content-between">
+				<li id="reply-${reply.id}" class="list-group-item d-flex justify-content-between">
 					<div>${reply.content}</div>
 					<div class="d-flex">
 						<div class=d-flex>작성자: ${reply.user.username } &nbsp;</div>
 						<c:if test="${principal.username == reply.user.username}">
-							<button class="badge badge-secondary">삭제</button>
+							<button class="badge badge-secondary" onClick="index.replyDelete(${board.id},${reply.id})">삭제</button>
 						</c:if>
 					</div>
 				</li>

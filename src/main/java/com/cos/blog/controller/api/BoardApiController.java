@@ -30,24 +30,35 @@ public class BoardApiController {
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //자바 오브젝트를 JSON으로 변환해서 리턴(JACKSON)
 	}
+	
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteById(@PathVariable int id){
 		boardService.글삭제하기(id);
+		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
 		boardService.글수정하기(id,board);
+
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
 	@PostMapping("/api/board/{boardId}/reply")
 	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
-		
 		boardService.댓글쓰기(replySaveRequestDto);
 		System.out.println("BoardApiController : replySave 호출됨.");
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //자바 오브젝트를 JSON으로 변환해서 리턴(JACKSON)
 	}
+	
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replySave(@PathVariable int replyId) {
+		boardService.댓글삭제(replyId);
+		
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //자바 오브젝트를 JSON으로 변환해서 리턴(JACKSON)
+	}
+	
+	
 }
