@@ -3,6 +3,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,16 +47,15 @@ public class Board {
 	
 	private int count; //조회수
 	
-	@ManyToOne(fetch = FetchType.EAGER) //Many - Board , One - User //종속 관계 표현
 	//FetchType.EAGER : board 정보를 클릭하면 user 정보를 무조건 가져온다.
-	
+	@ManyToOne(fetch = FetchType.EAGER) //Many - Board , One - User //종속 관계 표현
 	@JoinColumn(name = "userId")
 	private User user; 
 	
 	//DB는 Object를 저장할 수 없다. 
 	//FK, 자바는 오브젝트를 저장할 수 있으나 DB로 전환하면서 충돌남.
 	//FetchType.LAZY : 필요시에만 정보를 가져온다. (지연로딩)
-	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY) //mappedBy 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //mappedBy 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요
 	@JsonIgnoreProperties({"board"}) //무한 참조 방지; <Reply>가 실행될때 board 호출을 제외한다.
 	@OrderBy("id desc")
 	private List<Reply> replys;
