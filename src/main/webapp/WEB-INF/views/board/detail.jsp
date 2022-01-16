@@ -11,12 +11,10 @@
 		<div class="form-group" style="font-size: 15px;float: right;">
 			글번호 : <span id="id"><i>${board.id} </i></span>
 			작성자 : <span><i>${board.user.username} </i></span>
-		</div>
-		<hr>
+		</div><hr>
 		<div class="form-group" style="font-size: 19px;">
 		   <b>${board.title}</b>
-		</div>
-		<hr>
+		</div><hr>
 		<div class="form-group" style="font-size: 17px;">
 		  ${board.content}
 		</div>
@@ -26,28 +24,35 @@
 			<a href="/board/${board.id}/updateForm" class="btn btn-warning" style="margin-right:10px">수정하기</a>
 			<button id="btn-delete" class="btn btn-danger">삭제하기</button>
 		</div>
-	</c:if>
+	</c:if><hr>
 	
-	<hr>
-	<div class="input-group mb-3">
-		<textarea class="form-control" rows="1"></textarea>
-		<button class="btn btn-outline-secondary" type="button" id="button-addon2">등록</button>
-	</div>
+	<!-- 댓글 시작 -->
+	<form>
+		<div class="input-group mb-3">
+			<input type="hidden" id="userId" value="${principal.user.id}">
+			<input type="hidden" id="boardId" value="${board.id}">
+			<textarea id="replyContent" class="form-control" rows="1"></textarea>
+			<button id="btn-reply-save" class="btn btn-outline-secondary" type="button" id="button-addon2">등록</button>
+		</div>
+	</form>
 
 	<div class="card">
 		<div class="card-hearder">댓글 리스트</div>
-		<ul id="comment--box" class="list-group list-group-flush">
-			<li id="comment--1" class="list-group-item d-flex justify-content-between">
-				<div>댓글내용입니다.</div>
-				<div class="d-flex">
-					<div class=d-flex>작성자 : 뽀 &nbsp;</div>
-					<button class="badge badge-secondary">삭제</button>
-				</div>
-			</li>
-			
+		<ul id="reply--box" class="list-group list-group-flush">
+			<c:forEach var="reply" items="${board.replys}">
+				<li id="reply--1" class="list-group-item d-flex justify-content-between">
+					<div>${reply.content}</div>
+					<div class="d-flex">
+						<div class=d-flex>작성자: ${reply.user.username } &nbsp;</div>
+						<c:if test="${principal.username == reply.user.username}">
+							<button class="badge badge-secondary">삭제</button>
+						</c:if>
+					</div>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
-
+	<!-- 댓글 끝 -->
 
 
 </div>

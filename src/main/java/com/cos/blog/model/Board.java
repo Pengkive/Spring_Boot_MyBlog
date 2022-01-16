@@ -13,9 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,10 +54,11 @@ public class Board {
 	
 	//DB는 Object를 저장할 수 없다. 
 	//FK, 자바는 오브젝트를 저장할 수 있으나 DB로 전환하면서 충돌남.
-	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY) //mappedBy 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요
 	//FetchType.LAZY : 필요시에만 정보를 가져온다. (지연로딩)
-	private List<Reply> reply;
-	
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY) //mappedBy 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요
+	@JsonIgnoreProperties({"board"}) //무한 참조 방지; <Reply>가 실행될때 board 호출을 제외한다.
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	
 	@CreationTimestamp //데이터가 insert, create 될때 자동으로 현재시간 들어감.
 	private Timestamp createDate;
