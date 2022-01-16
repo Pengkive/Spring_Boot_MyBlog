@@ -21,11 +21,9 @@ public class UserApiController {
 	
 	@Autowired //DI 
 	private UserService userService;
-
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
 	
 	//JSON Data를 받기 위해 RequestBody 어노테이션을 걸어야 한다.
 	@PostMapping("/auth/joinProc")
