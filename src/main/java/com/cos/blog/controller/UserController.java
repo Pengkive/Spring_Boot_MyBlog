@@ -137,12 +137,12 @@ public class UserController {
 			System.out.println("카카오 id: "+kakaoProfile.getId());
 			System.out.println("카카오 E-mail: "+kakaoProfile.getKakao_account().getEmail());
 		
-			System.out.println("블로그 서버 유저네임: "+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+			System.out.println("블로그 서버 유저네임: "+kakaoProfile.getId());
 			System.out.println("블로그 서버 이메일: "+kakaoProfile.getKakao_account().getEmail());
 			System.out.println("블로그 서버 패스워드: "+cosKey);
 		
 			User kakaoUser = User.builder()
-					.username(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId())
+					.username(Integer.toString(kakaoProfile.getId()))
 					.password(cosKey)
 					.email(kakaoProfile.getKakao_account().getEmail())
 					.oauth("kakao")
