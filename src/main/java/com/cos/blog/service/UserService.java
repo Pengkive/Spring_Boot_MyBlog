@@ -34,11 +34,14 @@ public class UserService {
 							.orElseThrow(()->{
 								return new IllegalArgumentException("회원 찾기 실패: 해당 회원을 찾을 수 없습니다.");
 							});//영속화 완료
-				
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistance.setPassword(encPassword);
-		persistance.setEmail(user.getEmail());
+
+		//validate 체크
+		if(persistance.getOauth()==null || persistance.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistance.setPassword(encPassword);
+			persistance.setEmail(user.getEmail());
+		}
 	}
 
 	@Transactional(readOnly = true)
